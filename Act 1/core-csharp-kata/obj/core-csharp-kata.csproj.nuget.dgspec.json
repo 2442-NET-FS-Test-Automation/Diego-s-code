@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Usuario\\Desktop\\Revature\\Act 1\\core-csharp-kata\\core-csharp-kata.csproj": {}
+    "c:\\Users\\jorge\\Documents\\cognizant\\project-02\\Diego-s-code\\Act 1\\core-csharp-kata\\core-csharp-kata.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Usuario\\Desktop\\Revature\\Act 1\\core-csharp-kata\\core-csharp-kata.csproj": {
+    "c:\\Users\\jorge\\Documents\\cognizant\\project-02\\Diego-s-code\\Act 1\\core-csharp-kata\\core-csharp-kata.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Usuario\\Desktop\\Revature\\Act 1\\core-csharp-kata\\core-csharp-kata.csproj",
+        "projectUniqueName": "c:\\Users\\jorge\\Documents\\cognizant\\project-02\\Diego-s-code\\Act 1\\core-csharp-kata\\core-csharp-kata.csproj",
         "projectName": "core-csharp-kata",
-        "projectPath": "C:\\Users\\Usuario\\Desktop\\Revature\\Act 1\\core-csharp-kata\\core-csharp-kata.csproj",
-        "packagesPath": "C:\\Users\\Usuario\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Usuario\\Desktop\\Revature\\Act 1\\core-csharp-kata\\obj\\",
+        "projectPath": "c:\\Users\\jorge\\Documents\\cognizant\\project-02\\Diego-s-code\\Act 1\\core-csharp-kata\\core-csharp-kata.csproj",
+        "packagesPath": "C:\\Users\\jorge\\.nuget\\packages\\",
+        "outputPath": "c:\\Users\\jorge\\Documents\\cognizant\\project-02\\Diego-s-code\\Act 1\\core-csharp-kata\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Usuario\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\jorge\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net10.0"

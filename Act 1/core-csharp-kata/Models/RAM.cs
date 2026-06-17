@@ -11,6 +11,7 @@ public class RAM : Component
         SerialNumber = serialNumber;
         Memory = memory;
     }
+    // this is a comment
 
 
 }

@@ -8,19 +8,19 @@
     "net10.0": []
   },
   "packageFolders": {
-    "C:\\Users\\Usuario\\.nuget\\packages\\": {}
+    "C:\\Users\\jorge\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Usuario\\Desktop\\Revature\\Diego-s-code\\Week-1\\LibraryKAta\\Library.Domain\\Library.Domain.csproj",
+      "projectUniqueName": "C:\\Users\\jorge\\Documents\\cognizant\\project-02\\Diego-s-code\\Week-1\\LibraryKAta\\Library.Domain\\Library.Domain.csproj",
       "projectName": "Library.Domain",
-      "projectPath": "C:\\Users\\Usuario\\Desktop\\Revature\\Diego-s-code\\Week-1\\LibraryKAta\\Library.Domain\\Library.Domain.csproj",
-      "packagesPath": "C:\\Users\\Usuario\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Usuario\\Desktop\\Revature\\Diego-s-code\\Week-1\\LibraryKAta\\Library.Domain\\obj\\",
+      "projectPath": "C:\\Users\\jorge\\Documents\\cognizant\\project-02\\Diego-s-code\\Week-1\\LibraryKAta\\Library.Domain\\Library.Domain.csproj",
+      "packagesPath": "C:\\Users\\jorge\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\jorge\\Documents\\cognizant\\project-02\\Diego-s-code\\Week-1\\LibraryKAta\\Library.Domain\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Usuario\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\jorge\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net10.0"

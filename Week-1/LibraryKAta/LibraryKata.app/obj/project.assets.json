@@ -27,19 +27,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Usuario\\.nuget\\packages\\": {}
+    "C:\\Users\\jorge\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Usuario\\Desktop\\Revature\\Diego-s-code\\Week-1\\LibraryKAta\\LibraryKata.app\\LibraryKata.app.csproj",
+      "projectUniqueName": "C:\\Users\\jorge\\Documents\\cognizant\\project-02\\Diego-s-code\\Week-1\\LibraryKAta\\LibraryKata.app\\LibraryKata.app.csproj",
       "projectName": "LibraryKata.app",
-      "projectPath": "C:\\Users\\Usuario\\Desktop\\Revature\\Diego-s-code\\Week-1\\LibraryKAta\\LibraryKata.app\\LibraryKata.app.csproj",
-      "packagesPath": "C:\\Users\\Usuario\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Usuario\\Desktop\\Revature\\Diego-s-code\\Week-1\\LibraryKAta\\LibraryKata.app\\obj\\",
+      "projectPath": "C:\\Users\\jorge\\Documents\\cognizant\\project-02\\Diego-s-code\\Week-1\\LibraryKAta\\LibraryKata.app\\LibraryKata.app.csproj",
+      "packagesPath": "C:\\Users\\jorge\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\jorge\\Documents\\cognizant\\project-02\\Diego-s-code\\Week-1\\LibraryKAta\\LibraryKata.app\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Usuario\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\jorge\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net10.0"
@@ -52,8 +52,8 @@
           "framework": "net10.0",
           "targetAlias": "net10.0",
           "projectReferences": {
-            "C:\\Users\\Usuario\\Desktop\\Revature\\Diego-s-code\\Week-1\\LibraryKAta\\Library.Domain\\Library.Domain.csproj": {
-              "projectPath": "C:\\Users\\Usuario\\Desktop\\Revature\\Diego-s-code\\Week-1\\LibraryKAta\\Library.Domain\\Library.Domain.csproj"
+            "C:\\Users\\jorge\\Documents\\cognizant\\project-02\\Diego-s-code\\Week-1\\LibraryKAta\\Library.Domain\\Library.Domain.csproj": {
+              "projectPath": "C:\\Users\\jorge\\Documents\\cognizant\\project-02\\Diego-s-code\\Week-1\\LibraryKAta\\Library.Domain\\Library.Domain.csproj"
             }
           }
         }
