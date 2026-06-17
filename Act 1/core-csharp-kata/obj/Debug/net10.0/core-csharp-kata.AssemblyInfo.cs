@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("core-csharp-kata")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3a83bbc2bd13d9a02584cd05a16d02b251730e75")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+195bfe16db647155da661cd646a073a681cc3405")]
 [assembly: System.Reflection.AssemblyProductAttribute("core-csharp-kata")]
 [assembly: System.Reflection.AssemblyTitleAttribute("core-csharp-kata")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -1,20 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\jorge\\Documents\\cognizant\\project-02\\Diego-s-code\\Act 1\\core-csharp-kata\\core-csharp-kata.csproj": {}
+    "C:\\Users\\luis0\\OneDrive\\Documentos\\Computer_Components_Project\\Diego-s-code\\Act 1\\core-csharp-kata\\core-csharp-kata.csproj": {}
   },
   "projects": {
-    "c:\\Users\\jorge\\Documents\\cognizant\\project-02\\Diego-s-code\\Act 1\\core-csharp-kata\\core-csharp-kata.csproj": {
+    "C:\\Users\\luis0\\OneDrive\\Documentos\\Computer_Components_Project\\Diego-s-code\\Act 1\\core-csharp-kata\\core-csharp-kata.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\jorge\\Documents\\cognizant\\project-02\\Diego-s-code\\Act 1\\core-csharp-kata\\core-csharp-kata.csproj",
+        "projectUniqueName": "C:\\Users\\luis0\\OneDrive\\Documentos\\Computer_Components_Project\\Diego-s-code\\Act 1\\core-csharp-kata\\core-csharp-kata.csproj",
         "projectName": "core-csharp-kata",
-        "projectPath": "c:\\Users\\jorge\\Documents\\cognizant\\project-02\\Diego-s-code\\Act 1\\core-csharp-kata\\core-csharp-kata.csproj",
-        "packagesPath": "C:\\Users\\jorge\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\jorge\\Documents\\cognizant\\project-02\\Diego-s-code\\Act 1\\core-csharp-kata\\obj\\",
+        "projectPath": "C:\\Users\\luis0\\OneDrive\\Documentos\\Computer_Components_Project\\Diego-s-code\\Act 1\\core-csharp-kata\\core-csharp-kata.csproj",
+        "packagesPath": "C:\\Users\\luis0\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\luis0\\OneDrive\\Documentos\\Computer_Components_Project\\Diego-s-code\\Act 1\\core-csharp-kata\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\jorge\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\luis0\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net10.0"

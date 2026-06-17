@@ -12,6 +12,6 @@ public class RAM : Component
         Memory = memory;
     }
     // this is a comment
-
+    //Luis comment
 
 }
