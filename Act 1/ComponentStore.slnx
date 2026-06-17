@@ -1,0 +1,6 @@
+<Solution>
+  <Folder Name="/ComponentStore.App/">
+    <Project Path="ComponentStore.App/ComponentStore.App.csproj" />
+  </Folder>
+  <Project Path="ComponentStore.Domain/ComponentStore.Domain.csproj" />
+</Solution>
