@@ -1,4 +1,4 @@
-# 📋 Checklist del Proyecto
+#  Checklist del Proyecto
 
 ## 1. Historias de Usuario (Funcionalidad Requerida)
 
