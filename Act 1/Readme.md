@@ -1,65 +1,95 @@
-1. Historias de Usuario (Funcionalidad Requerida)
+# 📋 Checklist del Proyecto
 
-La aplicación debe cumplir con las siguientes historias de usuario. Marca las casillas conforme se vayan implementando en el código:
+## 1. Historias de Usuario (Funcionalidad Requerida)
 
-Colecciones y Ordenamiento
+La aplicación debe cumplir con las siguientes historias de usuario. Marca las casillas conforme se vayan implementando en el código.
 
-[ ] Agregar y Listar: El usuario puede registrar un nuevo componente de PC y visualizar la lista completa del inventario sin un límite de capacidad predefinido (Uso de List<T>).
+### Colecciones y Ordenamiento
 
-[ ] Deshacer acción: El usuario puede deshacer su modificación más reciente, manteniendo intactas las acciones anteriores (Uso de Stack<T>).
+* [ ] **Agregar y Listar:** El usuario puede registrar un nuevo componente de PC y visualizar la lista completa del inventario sin un límite de capacidad predefinido (**Uso de `List<T>`**).
 
-[ ] Procesamiento en orden de llegada: El sistema puede procesar solicitudes de armados en el orden exacto en que fueron creadas (Uso de Queue<T>).
+* [ ] **Deshacer acción:** El usuario puede deshacer su modificación más reciente, manteniendo intactas las acciones anteriores (**Uso de `Stack<T>`**).
 
-[ ] Reordenamiento de prioridad: El usuario puede mover un pedido específico al frente de la cola de trabajo sin reconstruir toda la estructura (Uso de LinkedList<T>).
+* [ ] **Procesamiento en orden de llegada:** El sistema puede procesar solicitudes de armados en el orden exacto en que fueron creadas (**Uso de `Queue<T>`**).
 
-[ ] Vista de cuadrícula: El sistema puede mostrar un mapa de ubicaciones físicas (estantes/pasillos) para localizar los componentes (Uso de arreglo bidimensional T[,]).
+* [ ] **Reordenamiento de prioridad:** El usuario puede mover un pedido específico al frente de la cola de trabajo sin reconstruir toda la estructura (**Uso de `LinkedList<T>`**).
 
-Manejo de Errores y Registro (Logging)
+* [ ] **Vista de cuadrícula:** El sistema puede mostrar un mapa de ubicaciones físicas (estantes/pasillos) para localizar los componentes (**Uso de arreglo bidimensional `T[,]`**).
 
-[ ] Recuperación de errores: Si el usuario busca un identificador inexistente, el sistema muestra un mensaje claro indicando el error y continúa ejecutándose sin interrumpirse (Uso de try/catch/finally y Excepciones Personalizadas).
+### Manejo de Errores y Registro (Logging)
 
-[ ] Registro de actividad: La aplicación mantiene un historial de las acciones realizadas, categorizadas por severidad: Información, Advertencia, Error (Uso de Serilog).
+* [ ] **Recuperación de errores:** Si el usuario busca un identificador inexistente, el sistema muestra un mensaje claro indicando el error y continúa ejecutándose sin interrumpirse (**Uso de `try/catch/finally` y Excepciones Personalizadas**).
 
-Búsqueda y Filtrado Eficiente
+* [ ] **Registro de actividad:** La aplicación mantiene un historial de las acciones realizadas, categorizadas por severidad: Información, Advertencia y Error (**Uso de Serilog**).
 
-[ ] Búsqueda indexada: El usuario puede recuperar un componente instantáneamente utilizando su identificador único (SKU) sin escanear toda la colección (Uso de Dictionary<K,V>).
+### Búsqueda y Filtrado Eficiente
 
-[ ] Valores únicos: El usuario puede visualizar atributos específicos disponibles (ej. Marcas) sin elementos duplicados (Uso de HashSet<T>).
+* [ ] **Búsqueda indexada:** El usuario puede recuperar un componente instantáneamente utilizando su identificador único (SKU) sin escanear toda la colección (**Uso de `Dictionary<TKey, TValue>`**).
 
-[ ] Iteración completa: El sistema puede recorrer y mostrar todo el inventario mediante un solo comando de listado (Uso de IEnumerable<T> y yield return).
+* [ ] **Valores únicos:** El usuario puede visualizar atributos específicos disponibles (ej. Marcas) sin elementos duplicados (**Uso de `HashSet<T>`**).
 
-[ ] Búsqueda condicional: El usuario puede filtrar el inventario basándose en condiciones personalizadas (Uso de expresiones Lambda / Predicate<T>).
+* [ ] **Iteración completa:** El sistema puede recorrer y mostrar todo el inventario mediante un solo comando de listado (**Uso de `IEnumerable<T>` y `yield return`**).
 
-Datos Externos y Validación
+* [ ] **Búsqueda condicional:** El usuario puede filtrar el inventario basándose en condiciones personalizadas (**Uso de expresiones Lambda / `Predicate<T>`**).
 
-[ ] Consumo de API: El sistema enriquece los datos locales conectándose a una API pública sin bloquear la ejecución de la aplicación (Uso de HttpClient y async/await).
+### Datos Externos y Validación
 
-[ ] Resiliencia Offline (Fallback): Si la conexión de red falla, la aplicación maneja el error internamente y utiliza datos de respaldo locales en lugar de interrumpirse.
+* [ ] **Consumo de API:** El sistema enriquece los datos locales conectándose a una API pública sin bloquear la ejecución de la aplicación (**Uso de `HttpClient` y `async/await`**).
 
-[ ] Validación estricta de entrada: El sistema verifica que los identificadores y datos críticos cumplan con un formato específico antes de procesarlos (Uso de Regex).
+* [ ] **Resiliencia Offline (Fallback):** Si la conexión de red falla, la aplicación maneja el error internamente y utiliza datos de respaldo locales en lugar de interrumpirse.
 
-2. Requisitos Técnicos y de Ingeniería
+* [ ] **Validación estricta de entrada:** El sistema verifica que los identificadores y datos críticos cumplan con un formato específico antes de procesarlos (**Uso de `Regex`**).
+
+---
+
+## 2. Requisitos Técnicos y de Ingeniería
 
 Para considerar la entrega completada, el código debe incluir obligatoriamente las siguientes implementaciones técnicas:
 
-[ ] Tipos de Datos: Uso de enum y al menos un readonly struct.
+* [ ] **Tipos de Datos:** Uso de `enum` y al menos un `readonly struct`.
 
-[ ] Genéricos: Implementación de al menos una clase o tipo genérico personalizado.
+* [ ] **Genéricos:** Implementación de al menos una clase o tipo genérico personalizado.
 
-[ ] Patrón de Diseño: Implementación de un patrón de Repositorio (mediante una interfaz) o un patrón Factory.
+* [ ] **Patrón de Diseño:** Implementación de un patrón de Repositorio (mediante una interfaz) o un patrón Factory.
 
-[ ] Logging Estructurado: Configuración de Serilog utilizando plantillas estructuradas (ej. Log.Information("... {Id}", id)), evitando la concatenación de strings.
+* [ ] **Logging Estructurado:** Configuración de Serilog utilizando plantillas estructuradas.
 
-[ ] Manejo de JSON: Deserialización de respuestas JSON extrayendo únicamente los campos necesarios y mapeándolos directamente al objeto de dominio.
+  ```csharp
+  Log.Information("Componente agregado {Id}", id);
+  ```
 
-[ ] Sintaxis C#: Uso de al menos un miembro expression-bodied (=>) y la utilización de clases partial o sealed.
+  Evitar la concatenación de cadenas.
 
-[ ] Validación Avanzada: Uso de al menos una técnica de validación avanzada: parámetro out, tipos anulables (nullable) con operador ??, o pattern-matching en un bloque switch.
+* [ ] **Manejo de JSON:** Deserialización de respuestas JSON extrayendo únicamente los campos necesarios y mapeándolos directamente al objeto de dominio.
 
-3. Stretch Goals (Objetivos Adicionales)
+* [ ] **Sintaxis C#:** Uso de al menos un miembro expression-bodied (`=>`) y la utilización de clases `partial` o `sealed`.
+
+* [ ] **Validación Avanzada:** Uso de al menos una técnica de validación avanzada:
+
+  * Parámetro `out`
+  * Tipos anulables (`nullable`) con operador `??`
+  * Pattern matching en un bloque `switch`
+
+---
+
+## 3. Stretch Goals (Objetivos Adicionales)
 
 Como equipo, hemos seleccionado los siguientes objetivos adicionales para implementar:
 
-[ ] Restricción Genérica (Generic Constraint): Añadir la restricción where T : Component a la clase genérica personalizada para garantizar la seguridad de tipos. Se documentará en el PR por qué esta restricción es adecuada para el dominio.
+* [ ] **Restricción Genérica (Generic Constraint):** Añadir la restricción:
 
-[ ] Segundo destino de Logs (Serilog Sink): Configurar un segundo sink para Serilog (.WriteTo.File(...)) con el fin de almacenar un registro persistente de la actividad en un archivo de texto, verificando que esto no requiera cambios en las llamadas de log existentes.
+  ```csharp
+  where T : Component
+  ```
+
+  a la clase genérica personalizada para garantizar la seguridad de tipos.
+
+  > Se documentará en el Pull Request por qué esta restricción es adecuada para el dominio.
+
+* [ ] **Segundo destino de Logs (Serilog Sink):** Configurar un segundo sink para Serilog:
+
+  ```csharp
+  .WriteTo.File("logs/app.log")
+  ```
+
+  con el fin de almacenar un registro persistente de la actividad en un archivo de texto, verificando que esto no requiera cambios en las llamadas de log existentes.
