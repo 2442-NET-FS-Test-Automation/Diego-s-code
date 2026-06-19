@@ -14,8 +14,8 @@ public abstract class Component
     }
 
 
-    public string? Name { get; private set; }
-    public string SerialNumber { get; private set; }
+    public string? Name { get; set; }
+    public string SerialNumber { get; set; }
 
     public uint Stock { get; private set; }
 

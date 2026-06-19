@@ -1,11 +1,16 @@
 namespace ComponentStore.Domain;
 
-public class RAM : Component
+public class RAM : Component, interfaceRam
 {
-    public int Memory {get; private set;}
+    public int MemoryCapacity { get; set; }
+    public MemoryType Memory { get; }
 
-    public RAM(string serialNumber, string name, decimal price, int memory, uint stock) : base(serialNumber, name, price, stock)
+    public RAM(string serialNumber, string name, decimal price, uint stock, int memoryCapacity, MemoryType memory) : base(serialNumber, name, price, stock)
     {
+        Name = name;
+        Price = price;
+        SerialNumber = serialNumber;
+        MemoryCapacity = memoryCapacity;
         Memory = memory;
     }
 
@@ -13,6 +18,4 @@ public class RAM : Component
     {
         return $"{SerialNumber}: {Name} has {Memory} and its price is {Price}";
     }
-
-
 }
