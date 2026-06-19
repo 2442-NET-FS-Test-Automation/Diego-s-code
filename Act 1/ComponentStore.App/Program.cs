@@ -5,20 +5,29 @@ using ComponentStore.Domain;
 
 public class Program
 {
+    static Inventory MyInventory = new Inventory();
+
     public static void Main()
     {
         var running = true;
-        var MyInventory = new Inventory();
 
+    
         while (running)
         {
             PrintMenu();
-            int choice = int.Parse(Console.ReadLine());
+            int choice;
+            while(!int.TryParse(Console.ReadLine(), out choice))
+            {
+                Console.WriteLine("That is not a number!");
+
+                continue;
+            }
             switch (choice)
             {
                 case 1: AddComponent(); break;
                 case 2: MyInventory.ListItems(); break;
-                case 0: running = false; break;
+                case 3: DeleteComponent(); break;
+                case 0: running = false; break; 
 
             }
         }
@@ -54,19 +63,96 @@ public class Program
         }
     }
 
-    static void ProcessorAdd()
+    static void DeleteComponent()
     {
-        Console.WriteLine(" --- ");
+
+        Console.WriteLine("Select your component to delete it!");
+        MyInventory.ListItems();
+        Console.WriteLine("Write down the number you want to delete (Be carefull)");
+        int choice = int.Parse(Console.ReadLine());
+        MyInventory.RemoveItem(choice);
+    }
+
+   static void ProcessorAdd()
+    {
+
+        var (name, price, serialNumber) = GeneralData();
+
+        Console.WriteLine(" --- Now Clock Speed");
+        double clockSpeed = double.Parse(Console.ReadLine());
+
+        Processor NewProcessor = new Processor (name, price, serialNumber, clockSpeed)
+        {
+            Name = name,
+            Price = price,
+            SerialNumber = serialNumber,
+            ClockSpeed = clockSpeed
+
+        };
+
+        MyInventory.AddItem(NewProcessor);
+        Console.WriteLine("\nProcessor added!");
+
     }
 
     static void GraphicCardAdd()
     {
+        var (name, price, serialNumber) = GeneralData();
 
+        Console.WriteLine(" --- Now VRAM capacity");
+        int vram = int.Parse(Console.ReadLine());
+
+        
+        GraphicCard NewGraphicCard = new GraphicCard (name, price, serialNumber, vram)
+        {
+            Name = name,
+            Price = price,
+            SerialNumber = serialNumber,
+            Vram = vram
+
+        };
+
+        MyInventory.AddItem(NewGraphicCard);
+        Console.WriteLine("\nGraphic Card added!");
+
+        
     }
 
     static void RAMAdd()
     {
+         var (name, price, serialNumber) = GeneralData();
 
+        Console.WriteLine(" --- Now Memory capacity");
+        int memory = int.Parse(Console.ReadLine());
+
+        
+        RAM NewRam = new RAM (name, price, serialNumber, memory)
+        {
+            Name = name,
+            Price = price,
+            SerialNumber = serialNumber,
+            Memory = memory
+
+        };
+
+        MyInventory.AddItem(NewRam);
+        Console.WriteLine("\nRAM added!");
+        
+    }
+
+    static (string name, decimal price, string serialNumber) GeneralData()
+    {
+        
+        Console.WriteLine(" --- Write Down the name and model!");
+        string name =Console.ReadLine();
+
+        Console.WriteLine(" --- Now give it a price");
+        decimal price = decimal.Parse(Console.ReadLine());
+
+        Console.WriteLine(" --- Now Serial Number");
+        string serialNumber = Console.ReadLine();
+
+        return (name, price, serialNumber);
     }
 
 
