@@ -4,14 +4,16 @@ namespace ComponentStore.Domain;
 
 public class Processor : Component
 {
-    public double ClockSpeed {get; set;}
+    public double ClockSpeed {get; private set;}
 
-    public Processor (String name, decimal price, string serialNumber, double clockSpeed)
+    public Processor(string serialNumber, String name, decimal price, double clockSpeed) : base(serialNumber, name, price)
     {
-        Name = name;
-        Price = price;
-        SerialNumber = serialNumber;
         ClockSpeed = clockSpeed;
-        
+
+    }
+
+    public override string Describe()
+    {
+        return $"{SerialNumber}: {Name} has {ClockSpeed} of clock speed and its price is {Price}";
     }
 }

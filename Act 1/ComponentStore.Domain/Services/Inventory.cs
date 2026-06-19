@@ -7,9 +7,9 @@ public class Inventory
 
     public Inventory()
     {
-        _items.Add(new Processor("AMD Ryzen 7", 249, "123456789", 199.99));
-        _items.Add(new GraphicCard("RTX 5090TI", 999, "123456789", 12));
-        _items.Add(new RAM("Corsair Vengeance Pro", 49, "123456789", 16));
+        _items.Add(new Processor("123456789","AMD Ryzen 7", 249, 199.99));
+        _items.Add(new GraphicCard("123456789", "RTX 5090TI", 999, 12));
+        _items.Add(new RAM("123456789","Corsair Vengeance Pro", 49, 16));
     }
 
     public void ListItems()

@@ -2,16 +2,17 @@ namespace ComponentStore.Domain;
 
 public class RAM : Component
 {
-    public int Memory {get; set;}
+    public int Memory {get; private set;}
 
-    public RAM(string name, decimal price, string serialNumber, int memory)
+    public RAM(string serialNumber, string name, decimal price, int memory) : base(serialNumber, name, price)
     {
-        Name = name;
-        Price = price;
-        SerialNumber = serialNumber;
         Memory = memory;
     }
-    // this is a comment
-    //Luis comment
+
+    public override string Describe()
+    {
+        return $"{SerialNumber}: {Name} has {Memory} and its price is {Price}";
+    }
+
 
 }
