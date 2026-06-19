@@ -1,8 +1,8 @@
 namespace ComponentStore.Domain;
 public abstract class Component
 {
- private double _Price;
- public double Price
+ private decimal _Price;
+ public decimal Price
     {
         get {return _Price; }
         set
@@ -14,6 +14,6 @@ public abstract class Component
 
 
  public string? Name {get; set;}
- public int SerialNumber {get; set;}    
+ public string SerialNumber {get; set;}    
 
 }
