@@ -2,6 +2,7 @@ namespace ComponentStore.Domain;
 
 public abstract class Component
 {
+    public int Id { get;}
     private decimal _price;
     public decimal Price
     {
