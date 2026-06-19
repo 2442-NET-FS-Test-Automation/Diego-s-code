@@ -14,15 +14,18 @@ public abstract class Component
     }
 
 
-    public string? Name { get; set; }
-    public string SerialNumber { get; set; }
+    public string? Name { get; private set; }
+    public string SerialNumber { get; private set; }
+
+    public uint Stock { get; private set; }
 
 
-    protected Component(string serialNumber, string name, decimal price)
+    protected Component(string serialNumber, string name, decimal price, uint stock)
     {
         this.SerialNumber = serialNumber;
         this.Name = name;
         this.Price = price;
+        this.Stock = stock;
     }
 
     public abstract string Describe();

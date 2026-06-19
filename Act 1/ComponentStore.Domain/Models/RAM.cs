@@ -4,7 +4,7 @@ public class RAM : Component
 {
     public int Memory {get; private set;}
 
-    public RAM(string serialNumber, string name, decimal price, int memory) : base(serialNumber, name, price)
+    public RAM(string serialNumber, string name, decimal price, int memory, uint stock) : base(serialNumber, name, price, stock)
     {
         Memory = memory;
     }

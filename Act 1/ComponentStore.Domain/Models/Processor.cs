@@ -6,7 +6,7 @@ public class Processor : Component
 {
     public double ClockSpeed {get; private set;}
 
-    public Processor(string serialNumber, String name, decimal price, double clockSpeed) : base(serialNumber, name, price)
+    public Processor(string serialNumber, String name, decimal price, double clockSpeed, uint stock) : base(serialNumber, name, price, stock)
     {
         ClockSpeed = clockSpeed;
 
