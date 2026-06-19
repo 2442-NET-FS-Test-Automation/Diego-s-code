@@ -5,7 +5,7 @@ public class GraphicCard : Component
     
 {
     public int? Vram {get; private set;}
-    public GraphicCard(string serialNumber, string name, decimal price, int vram, uint stock) : base(serialNumber, name, price, stock)
+    public GraphicCard(string serialNumber, string name, decimal price, uint stock, int vram) : base(serialNumber, name, price, stock)
     {
      Vram = vram;
     }

@@ -2,14 +2,14 @@ namespace ComponentStore.Domain;
 
 public class SSD : Component
 {
-    
-        public int Storage;
-    public SSD (string name, decimal price, string serialNumber, int storage)
+    public int Storage;
+    public SSD (string serialNumber, string name, decimal price, uint stock, int storage) : base(serialNumber, name, price, stock)
     {
-        Name = name;
-        Price = price;
-        SerialNumber = serialNumber;
         Storage = storage;
+    }
 
+    public override string Describe()
+    {
+        throw new NotImplementedException();
     }
 }
