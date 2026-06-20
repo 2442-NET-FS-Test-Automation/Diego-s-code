@@ -18,8 +18,7 @@ public class RepositoryComponentImplementation : IRepositoryComponent
             return item;
         }
         Log.Warning("Lookup failed for id {Id}", id);
-        throw new Exception();
-        //throw new ItemNotFoundException(id);
+        throw new ComponentNotFoundException(id);
     }
     public bool Remove(int id)
     {
