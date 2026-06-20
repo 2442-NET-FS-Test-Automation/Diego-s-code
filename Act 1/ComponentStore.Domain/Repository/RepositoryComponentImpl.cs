@@ -2,7 +2,7 @@ using Serilog;
 
 namespace ComponentStore.Domain;
 
-public class IRepositoryComponentImplementation : IRepositoryComponent
+public class RepositoryComponentImplementation : IRepositoryComponent
 {
     private readonly Dictionary<int, Component> _items = new();
     public void Add(Component component)
