@@ -3,4 +3,5 @@
     <Project Path="ComponentStore.App/ComponentStore.App.csproj" />
   </Folder>
   <Project Path="ComponentStore.Domain/ComponentStore.Domain.csproj" />
+  <Project Path="ComponentStore.Infrastructure/ComponentStore.Infrastructure.csproj" />
 </Solution>
