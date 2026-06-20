@@ -2,6 +2,8 @@
 using System.Net;
 
 using ComponentStore.Domain;
+using ComponentStore.Infrastructure;
+using Serilog;
 
 public class Program
 {
@@ -9,14 +11,34 @@ public class Program
 
     public static void Main()
     {
+        LoggerConfig.Configure();
+
+        GlobalExceptionHandler.Register();
+
+        try
+        {
+            RunApplication();
+        }
+        catch (Exception ex)
+        {
+            Log.Fatal(ex, "Application terminated unexpectedly");
+        }
+        finally
+        {
+            Log.CloseAndFlush();
+        }
+    }
+
+    static void RunApplication()
+    {
         var running = true;
 
-    
+
         while (running)
         {
             PrintMenu();
             int choice;
-            while(!int.TryParse(Console.ReadLine(), out choice))
+            while (!int.TryParse(Console.ReadLine(), out choice))
             {
                 Console.WriteLine("That is not a number!");
 
@@ -27,11 +49,10 @@ public class Program
                 case 1: AddComponent(); break;
                 case 2: MyInventory.ListItems(); break;
                 case 3: DeleteComponent(); break;
-                case 0: running = false; break; 
+                case 0: running = false; break;
 
             }
         }
-
     }
 
 

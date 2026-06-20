@@ -2,16 +2,20 @@ using System.Diagnostics;
 
 namespace ComponentStore.Domain;
 
-public class Processor : Component
+public class Processor : Component, InterfaceCPU
 {
-    public double ClockSpeed {get; set;}
 
-    public Processor (String name, decimal price, string serialNumber, double clockSpeed)
+    public double ClockSpeed {get; private set;}
+    public SocketType Socket {get; }
+    public Processor(string serialNumber, String name, decimal price, uint stock, double clockSpeed, SocketType socket) : base(serialNumber, name, price, stock)
     {
-        Name = name;
-        Price = price;
-        SerialNumber = serialNumber;
         ClockSpeed = clockSpeed;
+        Socket = socket;
+    }
+
+    public override string Describe()
+    {
+        return $"{SerialNumber}: {Name} has {ClockSpeed} of clock, its socket type {Socket} speed and its price is {Price}";
         
     }
 }
