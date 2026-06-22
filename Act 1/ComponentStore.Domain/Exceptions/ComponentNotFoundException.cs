@@ -1,5 +1,5 @@
-
-class ComponentNotFoundException : Exception
+namespace ComponentStore.Domain;
+public class ComponentNotFoundException : Exception
 {
     public int Id { get; }
 
