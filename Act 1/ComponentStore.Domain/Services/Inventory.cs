@@ -70,13 +70,11 @@ public class Inventory
     }
         public Component GetComponent(int choice)
     {
-        if (choice > 0 && choice <= _items.Count)
+        if (choice <= 0 || choice > _items.Count)
         {
-            return _items[choice - 1];
+            throw new ComponentNotFoundException(choice);
         }
-
-        Console.WriteLine("\n [Error], That number doesn't exist");
-        return null;
+        return _items[choice - 1];
     }
 
 

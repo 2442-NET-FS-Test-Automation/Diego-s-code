@@ -39,8 +39,7 @@ public ConfigPc GetConfig(int choice)
 
     if( choice < 1 || choice > _builds.Count)
         {
-            Console.WriteLine("\n [Error], that Number doesn't exist");
-            return null;
+            throw new Exception($"This number doesn't exist: {choice}");
         }
 
         string targetName = "";
@@ -60,7 +59,7 @@ public ConfigPc GetConfig(int choice)
         {
             return foundPc;
         }
-            return null;
+            throw new Exception($"The configuration {targetName} could not be loaded");
 }
 
 

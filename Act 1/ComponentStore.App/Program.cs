@@ -388,16 +388,24 @@ public class Program
             int itemChoice;
             if(int.TryParse(Console.ReadLine(), out itemChoice))
             {
+                try
+                {
                 Component ChoosenItem = MyInventory.GetComponent(itemChoice);
 
-                if(ChoosenItem != null)
+                myPc.AddComponent(ChoosenItem);      
+                }
+                catch (ComponentNotFoundException ex)
                 {
-                    myPc.AddComponent(ChoosenItem);
+                    Console.WriteLine($"\nInventory Error: {ex.Message}");
+                }
+                catch (ComponentException ex)
+                {
+                    Console.WriteLine($"Compatibility Error: {ex.Message}");
                 }
             }
             else
             {
-                Console.WriteLine("Invalid Option");
+                Console.WriteLine("\nPlease write a valid number");
             }
 
             Console.WriteLine("\nDo you want to add another piece? (y/n)");
@@ -422,15 +430,20 @@ public class Program
         int choice;
         while(!int.TryParse(Console.ReadLine(), out choice))
         {
+            
             Console.WriteLine("That is not a valid number, try again");
         }
-
-        ConfigPc myPc = MyServices.GetConfig(choice);
-
-        if(myPc != null)
+        try
         {
-            myPc.ListComponents();
+            ConfigPc myPc = MyServices.GetConfig(choice);
+
+             myPc.ListComponents();
         }
+        catch(Exception ex)
+        {
+            Console.WriteLine($"\nSearch Error: {ex.Message}");
+        }
+
     }
 
     static void RemoveComponentFromConfig()
@@ -470,9 +483,22 @@ public class Program
 
             myPc.ListComponents();
             int itemChoice;
+
             if(int.TryParse(Console.ReadLine(), out itemChoice))
             {
-                myPc.RemoveComponent(itemChoice);
+                try
+                {
+                myPc.RemoveComponent(itemChoice);   
+                Console.WriteLine("\nComponent Removed Succesfully");
+                }
+                catch(ComponentNotFoundException ex)
+                {
+                    Console.WriteLine($"Removal Error: {ex.Message}");
+                }
+                catch(ComponentException ex)
+                {
+                    Console.WriteLine($"\nAction Error: {ex.Message}");
+                }
             }
             else
             {

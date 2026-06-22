@@ -58,18 +58,26 @@ public class ConfigPc
         {
             if(proc.Socket != CurrentMB.Socket)
             {
+                /*
                 Console.WriteLine("The Sockets aren't compatible");
                 Console.WriteLine($"Processor Socket: {proc.Socket}, Mother Board Socket: {CurrentMB.Socket}");
                 return;
+                */
+
+                throw new ComponentException($"The Sockets aren't compatible. \nProcessor Socket: {proc.Socket}, Mother Board Socket: {CurrentMB.Socket} ");
             }
         }
         else if(newComponent is RAM ram && CurrentMB != null)
         {
             if(ram.Memory != CurrentMB.Memory)
             {
+                /*
                 Console.WriteLine("The Memory types aren't compatible");
                 Console.WriteLine($"Ram Memory type: {ram.Memory}, Mother Board Memory type: {CurrentMB.Memory}");
                 return;
+                */
+
+                throw new ComponentException($"The Memory types aren't compatible. \nRam Memory type: {ram.Memory}, Mother Board Memory type: {CurrentMB.Memory}");
             }
         }
         else if (newComponent is MotherBoard newMB)
@@ -78,16 +86,24 @@ public class ConfigPc
             {
                 if(piece is Processor existingProc && existingProc.Socket != newMB.Socket)
                 {
+                    /*
                     Console.WriteLine("The Sockets aren't compatible");
                     Console.WriteLine($"Processor Socket: {existingProc.Socket}, Mother Board Socket: {newMB.Socket}");
                     return;
+                    */
+
+                    throw new ComponentException($"The Sockets aren't compatible. \nProcessor Socket: {existingProc.Socket}, Mother Board Socket: {newMB.Socket} ");
                 }
 
                 if(piece is RAM existingRam && existingRam.Memory != newMB.Memory)
                 {
+                    /*
                     Console.WriteLine("The Sockets aren't compatible");
                     Console.WriteLine($"Processor Socket: {existingRam.Memory}, Mother Board Socket: {newMB.Memory}");
                     return;
+                    */
+
+                    throw new ComponentException($"The Sockets aren't compatible. \nProcessor Socket: {existingRam.Memory}, Mother Board Socket: {newMB.Memory} ");
                 }
             }   
         }
@@ -131,8 +147,7 @@ public class ConfigPc
         }
         if(choice < 1 || choice > _component.Count)
         {
-            Console.WriteLine("That Number doesn't exist");
-            return;
+            throw new ComponentNotFoundException(choice);
         }
 
         Stack<Component> tempStack = new Stack<Component>();
