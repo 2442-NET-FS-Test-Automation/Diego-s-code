@@ -6,7 +6,7 @@ using ComponentStore.Domain;
 using ComponentStore.Infrastructure;
 using Serilog;
 
-public class Program
+public partial class Program
 {
     static Inventory MyInventory = new Inventory();
     static BuildServices MyServices = new BuildServices();
