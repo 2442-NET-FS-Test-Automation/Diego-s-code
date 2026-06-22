@@ -278,11 +278,10 @@ public partial class Program
     {
 
         Console.WriteLine(" --- Write Down the name and model!");
-        string name = Console.ReadLine()?.Trim() ?? string.Empty;
+        string name = Console.ReadLine();
 
-        ShowSuggestedPrices(name);
-
-        decimal price = ReadDecimal(" --- Now give it a price");
+        Console.WriteLine(" --- Now give it a price");
+        decimal price = decimal.Parse(Console.ReadLine());
 
         Console.WriteLine(" --- Now Serial Number");
         string serialNumber = Console.ReadLine();
@@ -291,63 +290,6 @@ public partial class Program
         uint stock = uint.Parse(Console.ReadLine());
 
         return (name, price, serialNumber, stock);
-    }
-
-    static decimal ReadDecimal(string prompt)
-    {
-        decimal value;
-
-        while (true)
-        {
-            Console.WriteLine(prompt);
-            string input = Console.ReadLine() ?? string.Empty;
-
-            if (decimal.TryParse(input, NumberStyles.Number, CultureInfo.CurrentCulture, out value) && value >= 0)
-            {
-                return value;
-            }
-
-            if (decimal.TryParse(input, NumberStyles.Number, CultureInfo.InvariantCulture, out value) && value >= 0)
-            {
-                return value;
-            }
-
-            Console.WriteLine("Invalid price. Try again with a valid number.");
-        }
-    }
-
-    static void ShowSuggestedPrices(string name)
-    {
-        if (string.IsNullOrWhiteSpace(name))
-        {
-            return;
-        }
-
-        Console.WriteLine("\nSearching reference prices from API...");
-
-        PriceLookupResult result = PriceAPI.SearchProductPricesAsync(name).GetAwaiter().GetResult();
-
-        if (!string.IsNullOrWhiteSpace(result.Message))
-        {
-            Console.WriteLine(result.Message);
-        }
-
-        if (result.Suggestions.Count == 0)
-        {
-            return;
-        }
-
-        Console.WriteLine("\n--- Suggested prices ---");
-        for (int i = 0; i < result.Suggestions.Count; i++)
-        {
-            PriceSuggestion suggestion = result.Suggestions[i];
-            Console.WriteLine($"{i + 1}. {suggestion.Title} | {suggestion.Price} {suggestion.Currency} | {suggestion.Source}");
-        }
-
-        decimal minPrice = result.Suggestions.Min(s => s.Price);
-        decimal maxPrice = result.Suggestions.Max(s => s.Price);
-        Console.WriteLine($"Suggested range: {minPrice} - {maxPrice}");
-        Console.WriteLine("Set your own price using this information.");
     }
 
     static void CreateConfig()
@@ -393,16 +335,24 @@ public partial class Program
             int itemChoice;
             if (int.TryParse(Console.ReadLine(), out itemChoice))
             {
-                Component ChoosenItem = MyInventory.GetComponent(itemChoice);
-
-                if (ChoosenItem != null)
+                try
                 {
+                    Component ChoosenItem = MyInventory.GetComponent(itemChoice);
+
                     myPc.AddComponent(ChoosenItem);
+                }
+                catch (ComponentNotFoundException ex)
+                {
+                    Console.WriteLine($"\nInventory Error: {ex.Message}");
+                }
+                catch (ComponentException ex)
+                {
+                    Console.WriteLine($"Compatibility Error: {ex.Message}");
                 }
             }
             else
             {
-                Console.WriteLine("Invalid Option");
+                Console.WriteLine("\nPlease write a valid number");
             }
 
             Console.WriteLine("\nDo you want to add another piece? (y/n)");
@@ -427,15 +377,20 @@ public partial class Program
         int choice;
         while (!int.TryParse(Console.ReadLine(), out choice))
         {
+
             Console.WriteLine("That is not a valid number, try again");
         }
-
-        ConfigPc myPc = MyServices.GetConfig(choice);
-
-        if (myPc != null)
+        try
         {
+            ConfigPc myPc = MyServices.GetConfig(choice);
+
             myPc.ListComponents();
         }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"\nSearch Error: {ex.Message}");
+        }
+
     }
 
     static void RemoveComponentFromConfig()
@@ -475,9 +430,22 @@ public partial class Program
 
             myPc.ListComponents();
             int itemChoice;
+
             if (int.TryParse(Console.ReadLine(), out itemChoice))
             {
-                myPc.RemoveComponent(itemChoice);
+                try
+                {
+                    myPc.RemoveComponent(itemChoice);
+                    Console.WriteLine("\nComponent Removed Succesfully");
+                }
+                catch (ComponentNotFoundException ex)
+                {
+                    Console.WriteLine($"Removal Error: {ex.Message}");
+                }
+                catch (ComponentException ex)
+                {
+                    Console.WriteLine($"\nAction Error: {ex.Message}");
+                }
             }
             else
             {
@@ -494,5 +462,4 @@ public partial class Program
             }
         }
     }
-
 }
