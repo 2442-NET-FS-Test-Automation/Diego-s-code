@@ -10,6 +10,6 @@ public class SSD : Component
 
     public override string Describe()
     {
-        throw new NotImplementedException();
+        return $"";
     }
 }

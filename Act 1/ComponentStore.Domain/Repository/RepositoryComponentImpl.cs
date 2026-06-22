@@ -2,7 +2,7 @@ using Serilog;
 
 namespace ComponentStore.Domain;
 
-public class IRepositoryComponentImplementation : IRepositoryComponent
+public class RepositoryComponentImplementation : IRepositoryComponent
 {
     private readonly Dictionary<int, Component> _items = new();
     public void Add(Component component)
@@ -18,8 +18,7 @@ public class IRepositoryComponentImplementation : IRepositoryComponent
             return item;
         }
         Log.Warning("Lookup failed for id {Id}", id);
-        throw new Exception();
-        //throw new ItemNotFoundException(id);
+        throw new ComponentNotFoundException(id);
     }
     public bool Remove(int id)
     {

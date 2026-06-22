@@ -3,6 +3,8 @@ using System.ComponentModel.Design.Serialization;
 using System.Net;
 using System.Runtime.InteropServices.Marshalling;
 using ComponentStore.Domain;
+using ComponentStore.Infrastructure;
+using Serilog;
 
 public class Program
 {
@@ -11,14 +13,34 @@ public class Program
 
     public static void Main()
     {
+        LoggerConfig.Configure();
+
+        GlobalExceptionHandler.Register();
+
+        try
+        {
+            RunApplication();
+        }
+        catch (Exception ex)
+        {
+            Log.Fatal(ex, "Application terminated unexpectedly");
+        }
+        finally
+        {
+            Log.CloseAndFlush();
+        }
+    }
+
+    static void RunApplication()
+    {
         var running = true;
 
-    
+
         while (running)
         {
             PrintMenu();
             int choice;
-            while(!int.TryParse(Console.ReadLine(), out choice))
+            while (!int.TryParse(Console.ReadLine(), out choice))
             {
                 Console.WriteLine("That is not a number!");
 
@@ -37,7 +59,6 @@ public class Program
 
             }
         }
-
     }
 
 
