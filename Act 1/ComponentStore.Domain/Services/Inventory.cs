@@ -7,9 +7,9 @@ public class Inventory
 
     public Inventory()
     {
-        _items.Add(new Processor("123456789","AMD Ryzen 7", 249, 199.99, 10, SocketType.AM4));
-        _items.Add(new GraphicCard("123456789", "RTX 5090TI", 999, 12, 8));
-        _items.Add(new RAM("123456789","Corsair Vengeance Pro", 49, 2, 16, MemoryType.DDR3));
+        _items.Add(new Processor("DFE3453","AMD Ryzen 7", 249, 5, 10, SocketType.AM4));
+        _items.Add(new GraphicCard("EG3422", "RTX 5090TI", 999, 12, 8));
+        _items.Add(new RAM("34345","Corsair Vengeance Pro", 49, 2, 16, MemoryType.DDR3));
     }
 
     public void ListItems()
@@ -22,21 +22,26 @@ public class Inventory
             return;
         }
 
-        for(int i = 1; i < _items.Count; i++)
+        for(int i = 0; i < _items.Count; i++)
         {
             var Piece = _items[i];
+            int menuNumber = i + 1;
 
             if(Piece is GraphicCard TemporalGraphicCard)
             {
-                 Console.WriteLine($"{i}. Name: {Piece.Name}, Price: {Piece.Price}, S/N: {Piece.SerialNumber}, Vram: {TemporalGraphicCard.Vram}");
+                 Console.WriteLine($"{menuNumber}. Name: {Piece.Name}, Price: {Piece.Price}, S/N: {Piece.SerialNumber}, Vram: {TemporalGraphicCard.Vram}");
             }
             else if(Piece is Processor TemporalProcessor)
             {
-                Console.WriteLine($"{i}. Name: {Piece.Name}, Price: {Piece.Price}, S/N: {Piece.SerialNumber}, Clock Speed: {TemporalProcessor.ClockSpeed}");
+                Console.WriteLine($"{menuNumber}. Name: {Piece.Name}, Price: {Piece.Price}, S/N: {Piece.SerialNumber}, Clock Speed: {TemporalProcessor.ClockSpeed}, Socket: {TemporalProcessor.Socket}");
             }
             else if(Piece is RAM TemporalRAM)
             {
-                Console.WriteLine($"{i}. Name: {Piece.Name}, Price: {Piece.Price}, S/N: {Piece.SerialNumber}, Memory: {TemporalRAM.Memory}");
+                Console.WriteLine($"{menuNumber}. Name: {Piece.Name}, Price: {Piece.Price}, S/N: {Piece.SerialNumber}, Memory: {TemporalRAM.Memory}");
+            }
+            else if(Piece is MotherBoard TemporalMB)
+            {
+                Console.WriteLine($"{menuNumber}. Name: {Piece.Name}, Price: {Piece.Price}, S/N: {Piece.SerialNumber}, Stock: {Piece.Stock}, Socket: {TemporalMB.Socket}, Memory type: {TemporalMB.Memory}");
             }
            
         }
@@ -62,6 +67,17 @@ public class Inventory
             _items.RemoveAt(realIndex);
             Console.WriteLine("Items were removed succesfully!");
         }
-        
     }
+        public Component GetComponent(int choice)
+    {
+        if (choice > 0 && choice <= _items.Count)
+        {
+            return _items[choice - 1];
+        }
+
+        Console.WriteLine("\n [Error], That number doesn't exist");
+        return null;
+    }
+
+
 }

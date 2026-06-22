@@ -4,7 +4,7 @@ namespace ComponentStore.Domain;
 public class GraphicCard : Component
     
 {
-    public int? Vram {get; private set;}
+    public int? Vram {get; set;}
     public GraphicCard(string serialNumber, string name, decimal price, uint stock, int vram) : base(serialNumber, name, price, stock)
     {
      Vram = vram;

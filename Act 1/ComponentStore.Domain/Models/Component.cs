@@ -18,10 +18,10 @@ public abstract class Component
     public string? Name { get; set; }
     public string SerialNumber { get; set; }
 
-    public uint Stock { get; private set; }
+    public uint Stock { get; set; }
 
 
-    protected Component(string serialNumber, string name, decimal price, uint stock)
+    public Component(string serialNumber, string name, decimal price, uint stock)
     {
         this.SerialNumber = serialNumber;
         this.Name = name;
