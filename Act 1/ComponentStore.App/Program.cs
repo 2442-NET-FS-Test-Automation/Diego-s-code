@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.Design;
 using System.ComponentModel.Design.Serialization;
+using System.Globalization;
 using System.Net;
 using System.Runtime.InteropServices.Marshalling;
 using ComponentStore.Domain;
@@ -331,10 +332,11 @@ public class Program
     {
         
         Console.WriteLine(" --- Write Down the name and model!");
-        string name =Console.ReadLine();
+        string name = Console.ReadLine()?.Trim() ?? string.Empty;
 
-        Console.WriteLine(" --- Now give it a price");
-        decimal price = decimal.Parse(Console.ReadLine());
+        ShowSuggestedPrices(name);
+
+        decimal price = ReadDecimal(" --- Now give it a price");
 
         Console.WriteLine(" --- Now Serial Number");
         string serialNumber = Console.ReadLine();
@@ -343,6 +345,63 @@ public class Program
         uint stock = uint.Parse(Console.ReadLine());
 
         return (name, price, serialNumber, stock);
+    }
+
+    static decimal ReadDecimal(string prompt)
+    {
+        decimal value;
+
+        while (true)
+        {
+            Console.WriteLine(prompt);
+            string input = Console.ReadLine() ?? string.Empty;
+
+            if (decimal.TryParse(input, NumberStyles.Number, CultureInfo.CurrentCulture, out value) && value >= 0)
+            {
+                return value;
+            }
+
+            if (decimal.TryParse(input, NumberStyles.Number, CultureInfo.InvariantCulture, out value) && value >= 0)
+            {
+                return value;
+            }
+
+            Console.WriteLine("Invalid price. Try again with a valid number.");
+        }
+    }
+
+    static void ShowSuggestedPrices(string name)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            return;
+        }
+
+        Console.WriteLine("\nSearching reference prices from API...");
+
+        PriceLookupResult result = PriceAPI.SearchProductPricesAsync(name).GetAwaiter().GetResult();
+
+        if (!string.IsNullOrWhiteSpace(result.Message))
+        {
+            Console.WriteLine(result.Message);
+        }
+
+        if (result.Suggestions.Count == 0)
+        {
+            return;
+        }
+
+        Console.WriteLine("\n--- Suggested prices ---");
+        for (int i = 0; i < result.Suggestions.Count; i++)
+        {
+            PriceSuggestion suggestion = result.Suggestions[i];
+            Console.WriteLine($"{i + 1}. {suggestion.Title} | {suggestion.Price} {suggestion.Currency} | {suggestion.Source}");
+        }
+
+        decimal minPrice = result.Suggestions.Min(s => s.Price);
+        decimal maxPrice = result.Suggestions.Max(s => s.Price);
+        Console.WriteLine($"Suggested range: {minPrice} - {maxPrice}");
+        Console.WriteLine("Set your own price using this information.");
     }
 
     static void CreateConfig()
