@@ -44,7 +44,7 @@ public class Program
             while (!int.TryParse(Console.ReadLine(), out choice))
             {
                 Console.WriteLine("That is not a number!");
-
+;
                 continue;
             }
             switch (choice)
@@ -57,8 +57,8 @@ public class Program
                 case 6: ShowPCDetails(); break;
                 case 7: RemoveComponentFromConfig(); break;
                 case 0: running = false; break;
-
             }
+            ClearConsole();
         }
     }
 
@@ -96,6 +96,13 @@ public class Program
             case 4: MBAdd(); break;
             case 0: break;
         }
+    }
+
+    static void ClearConsole()
+    {
+        Console.WriteLine("\nPress enter to continue");
+        Console.ReadLine();
+        Console.Clear();
     }
 
     static void DeleteComponent()
