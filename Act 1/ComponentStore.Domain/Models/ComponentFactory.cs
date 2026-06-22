@@ -1,4 +1,4 @@
-/* namespace ComponentStore.Domain;
+ namespace ComponentStore.Domain;
 
 class ComponentFactory
 {
@@ -23,4 +23,3 @@ class ComponentFactory
         }
     }
 }
-*/
