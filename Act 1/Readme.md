@@ -93,3 +93,10 @@ Como equipo, hemos seleccionado los siguientes objetivos adicionales para implem
   ```
 
   con el fin de almacenar un registro persistente de la actividad en un archivo de texto, verificando que esto no requiera cambios en las llamadas de log existentes.
+
+#### Agregar .env
+- Crea archivo **.env** en la raiz del proyecto
+- Agrega la variable 
+```bash
+PRICESAPI_KEY=TU-API-KEY
+```
