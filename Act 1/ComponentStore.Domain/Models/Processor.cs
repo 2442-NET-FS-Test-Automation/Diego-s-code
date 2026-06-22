@@ -5,7 +5,7 @@ namespace ComponentStore.Domain;
 public class Processor : Component, InterfaceCPU
 {
 
-    public double ClockSpeed {get; private set;}
+    public double ClockSpeed {get; set;}
     public SocketType Socket {get; }
     public Processor(string serialNumber, String name, decimal price, uint stock, double clockSpeed, SocketType socket) : base(serialNumber, name, price, stock)
     {
