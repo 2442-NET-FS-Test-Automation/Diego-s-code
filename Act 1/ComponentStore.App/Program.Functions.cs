@@ -33,7 +33,7 @@ public partial class Program
         Console.WriteLine("4. Mother Board");
         Console.WriteLine("0. Return");
 
-        int choice = int.Parse(Console.ReadLine());
+        int choice = int.Parse(Console.ReadLine()?? string.Empty);
         switch (choice)
         {
             case 1: ProcessorAdd(); break;
@@ -50,7 +50,7 @@ public partial class Program
         Console.WriteLine("Select your component to delete it!");
         MyInventory.ListItems();
         Console.WriteLine("Write down the number you want to delete (Be carefull)");
-        int choice = int.Parse(Console.ReadLine());
+        int choice = int.Parse(Console.ReadLine()?? string.Empty);
         MyInventory.RemoveItem(choice);
     }
 
@@ -60,7 +60,7 @@ public partial class Program
         var (name, price, serialNumber, stock) = GeneralData();
 
         Console.WriteLine(" --- Now Clock Speed");
-        double clockSpeed = double.Parse(Console.ReadLine());
+        double clockSpeed = double.Parse(Console.ReadLine()?? string.Empty);
 
         Console.WriteLine("Wich socket it uses?");
         Console.WriteLine("1. AM4");
@@ -121,7 +121,7 @@ public partial class Program
         var (name, price, serialNumber, stock) = GeneralData();
 
         Console.WriteLine(" --- Now VRAM capacity");
-        int vram = int.Parse(Console.ReadLine());
+        int vram = int.Parse(Console.ReadLine()?? string.Empty);   
 
 
         GraphicCard NewGraphicCard = new GraphicCard(name, serialNumber, price, stock, vram)
@@ -145,7 +145,7 @@ public partial class Program
         var (name, price, serialNumber, stock) = GeneralData();
 
         Console.WriteLine(" --- Now Memory capacity");
-        int memory = int.Parse(Console.ReadLine());
+        int memory = int.Parse(Console.ReadLine()?? string.Empty);
 
         Console.WriteLine(" --- What is the memory type?");
 
@@ -278,16 +278,18 @@ public partial class Program
     {
 
         Console.WriteLine(" --- Write Down the name and model!");
-        string name = Console.ReadLine();
+        string name = Console.ReadLine()?? string.Empty;
+
+        ShowSuggestedPrices(name); 
 
         Console.WriteLine(" --- Now give it a price");
-        decimal price = decimal.Parse(Console.ReadLine());
+        decimal price = decimal.Parse(Console.ReadLine()?? string.Empty);
 
         Console.WriteLine(" --- Now Serial Number");
-        string serialNumber = Console.ReadLine();
+        string serialNumber = Console.ReadLine()?? string.Empty;
 
         Console.WriteLine(" --- Now, how much pieces of this component do you have?");
-        uint stock = uint.Parse(Console.ReadLine());
+        uint stock = uint.Parse(Console.ReadLine()?? string.Empty);
 
         return (name, price, serialNumber, stock);
     }
@@ -296,7 +298,7 @@ public partial class Program
     {
 
         Console.WriteLine("Name your configuration!");
-        string name = Console.ReadLine();
+        string name = Console.ReadLine()?? string.Empty;
 
         MyServices.SaveConfig(name);
 
@@ -356,7 +358,7 @@ public partial class Program
             }
 
             Console.WriteLine("\nDo you want to add another piece? (y/n)");
-            string answer = Console.ReadLine().ToLower();
+            string answer = Console.ReadLine()?.ToLower() ?? "";
 
             if (answer != "y")
             {
@@ -392,6 +394,41 @@ public partial class Program
         }
 
     }
+
+    static void ShowSuggestedPrices(string name)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            return;
+        }
+
+        Console.WriteLine("\nSearching reference prices from API...");
+
+        PriceLookupResult result = PriceAPI.SearchProductPricesAsync(name).GetAwaiter().GetResult();
+
+        if (!string.IsNullOrWhiteSpace(result.Message))
+        {
+            Console.WriteLine(result.Message);
+        }
+
+        if (result.Suggestions.Count == 0)
+        {
+            return;
+        }
+
+        Console.WriteLine("\n--- Suggested prices ---");
+        for (int i = 0; i < result.Suggestions.Count; i++)
+        {
+            PriceSuggestion suggestion = result.Suggestions[i];
+            Console.WriteLine($"{i + 1}. {suggestion.Title} | {suggestion.Price} {suggestion.Currency} | {suggestion.Source}");
+        }
+
+        decimal minPrice = result.Suggestions.Min(s => s.Price);
+        decimal maxPrice = result.Suggestions.Max(s => s.Price);
+        Console.WriteLine($"Suggested range: {minPrice} - {maxPrice}");
+        Console.WriteLine("Set your own price using this information.");
+    }
+
 
     static void RemoveComponentFromConfig()
     {
@@ -453,7 +490,7 @@ public partial class Program
             }
 
             Console.WriteLine("\n Do you want to remove another piece? (y/n)");
-            String answer = Console.ReadLine().Trim().ToLower();
+            String answer = Console.ReadLine()?.Trim().ToLower() ?? "";
 
             if (answer != "y")
             {
@@ -461,5 +498,12 @@ public partial class Program
                 Console.WriteLine("\nExiting edit mode...");
             }
         }
+    }
+
+        static void ClearConsole()
+    {
+        Console.WriteLine("\nPress enter to continue");
+        Console.ReadLine();
+        Console.Clear();
     }
 }

@@ -8,7 +8,7 @@ public enum SocketType
     AM4,
     AM5,
 
-    // === Socket Intel ===
+    // === Sockets Intel ===
     LGA1151,
     LGA1200,
     LGA1700,

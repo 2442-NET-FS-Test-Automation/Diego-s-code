@@ -18,7 +18,7 @@ class ComponentFactory
                 return new RAM(serialNumber, name, price, stock, memoryCapacity, memoryType);
             case ComponentKind.SSD:
                 return new SSD(serialNumber, name, price, stock, storage);
-            default: // No idea how you'd get here.
+            default: 
                 throw new ComponentException($"Unknown item kind: {componentKind}");
         }
     }
