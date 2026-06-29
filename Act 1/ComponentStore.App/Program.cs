@@ -12,6 +12,7 @@ public partial class Program
     static Inventory MyInventory = new Inventory();
     static BuildServices MyServices = new BuildServices();
 
+
     public static void Main()
     {
         LoggerConfig.Configure();
@@ -59,6 +60,8 @@ public partial class Program
                 case 0: running = false; break;
 
             }
+            
+            ClearConsole();
         }
     }
 }
