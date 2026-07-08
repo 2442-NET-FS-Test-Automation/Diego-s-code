@@ -515,47 +515,47 @@ INSERT INTO dbo.Loan (BookId, MemberId, LoanDate, DueDate, ReturnDate) VALUES
     (1, 4, '2026-06-10', '2026-06-24', NULL),         -- Clean Code, out to Linus
     (8, 5, '2026-06-12', '2026-06-26', NULL);         -- Pragmatic Programmer, out to Margaret
 GO
---JOINS and intermediate DQL
---An agregate collapses mant rows into one sumber
---COUNT() - 4 - COUNT(*)C   Is different from COUNT(some_column) - when you COUNT() a specific column, NULLS are ignored
---SUM() get the sum total stored in a column across many row
---AVG() get the average value stored in a column actoss many rows - skip nulls 
---MIN(), MAX()
 
-SELECT COUNT(*) as BookCount, SUM(TotalCopies) AS TotalCopies,
-    AVG(Totalcopies) AS AvgCopies, MIN(PublishedYear) AS Oldest,
-    MAX(PublishedYear) AS Newest
-    FROM dbo.Book;
+-- JOINS and intermediate DQL -- 
 
+-- Aggregate functions
+-- An aggregate collapses many rows into one sumber
+-- COUNT() - 4 - COUNT(*) is different from COUNT(some_column) - when you COUNT() a specific column, NULLS are ignored
+-- SUM() - get the sum total stored in a column across many rows
+-- AVG() - get the average value stored in a column across many rows - skip nulls 
+-- MIN(), MAX()
 
---Scalar functions - transform a value into a new value, per row.
+SELECT COUNT(*) AS BookCount, SUM(TotalCopies) AS TotalCopies, 
+        AVG(TotalCopies) AS AvgCopies, MIN(PublishedYear) AS Oldest, 
+        MAX(PublishedYear) AS Newest 
+FROM dbo.Book;
 
+-- Scalar functions - transform a value into a new value, per row. 
 SELECT UPPER(LastName) AS LastUpper,
-    LEN(Email) AS EmailLen,
-    CONCAT(FirstName, ' ', LastName) AS FullName,
-    DATEDIFF(DAY, JoinedDate, GETDATE()) AS DayMember--Takes 3 arguments, the datepart (year difference, day difference, etc)
-FROM dbo.Member;                        -- start date, end date
+        LEN(Email) AS EmailLen,
+        CONCAT(FirstName, ' ', LastName) AS FullName,
+        DATEDIFF(DAY, JoinedDate, GETDATE()) AS DaysAMember-- Takes 3 arguments, the datepart (year difference, day difference, etc)
+FROM dbo.Member;                                    -- start date, end date
 
 
---SQL Joins --
-
---JOINs - JOINs are one way to get information from multiple tables in the same query.
--- INNER JOIN(the default join)
+-- SQL Joins --
+-- JOINs - JOINs are one way to get information from multiple tables in the same query.
+-- INNER JOIN (the default join)
 -- LEFT and RIGHT JOINs
---OUTER JOINs (LEFT, RIGHT, FULL)
+-- OUTER JOINs (LEFT, RIGHT, FULL)
 -- CROSS JOINs
 
---Books with their categories (FK = PK)
---This is an example of an equi-join - we join an equality comparasion
+-- books with their categories (FK = PK)
+-- This is an example of an equi-join - we join on an equality comparison
 SELECT b.Title, c.Name AS Category
 FROM dbo.Book AS b
-INNER JOIN dbo.Category AS c ON c.CategoryId = b.CategoryId -- the join condition
+INNER JOIN dbo.Category AS c ON c.CategoryId = b.CategoryId -- the join condition 
 ORDER BY c.Name, b.Title;
 
--- Let's fo a join across many to many
--- I want stuff from Authors and books - I need to traverse BookAuthor
+-- Lets do a join across a many to many
+-- I want stuff from Authors and Books - I need to traverse BookAuthor
 
--- books with all their authors, through the join table
+-- books with ALL their authors, through the join table
 SELECT b.Title, a.FirstName + ' ' + a.LastName AS Author
 FROM dbo.Book AS b
 JOIN dbo.BookAuthor ba ON ba.BookId = b.BookId
@@ -563,77 +563,70 @@ JOIN dbo.Author a ON a.AuthorId = ba.AuthorId
 ORDER BY b.Title, Author;
 
 
---GROUP BY + HAVING with JOINs
---I want the name, total books in, and total copies across all books in: A category
-SELECT c.Name AS Category, COUNT(*) AS books, SUM(b.TotalCopies) AS Copies
-FROM dbo.Book
+-- GROUP BY + HAVING with JOINs
+-- I want the name, total books in, and total copies across all books in: A category
+SELECT c.Name AS Category, COUNT(*) AS Books, SUM(b.TotalCopies) AS Copies
+FROM dbo.Book b
 JOIN dbo.Category c ON c.CategoryId = b.CategoryId
 GROUP BY c.Name
 HAVING COUNT(*) > 0
 ORDER BY Books DESC;
 
---GROUP BY returns one row in the result PER GROUP 
---Aggregates collapse all rows in a group into a single value
---Aggregates collape all rows in a group into a single value
---A bare column, would have many possible values per group.
+-- GROUP BY returns one row in the result PER GROUP
+-- Aggregates collapse all rows in a group into a single value
+-- A bare column, would have many possible values per group. 
 
+-- LEFT and RIGHT joins 
 
---LEFT and RIGHT JOINs
-
---LEFT JOIN - we want all records from the LEft table, and matching records from the right
---Every member and their loans, if they have it. Members with no loans will still appear
-
+-- LEFT JOIN - we want all records from the left table, and matching records from the right
+-- every member and their loans, if they have any. Members with no loans will still appear
 SELECT m.FirstName, m.LastName, l.LoanId, l.DueDate
-FROM dbo.Member AS m --Left table
-LEFT JOIN dbo.Loan AS l ON l.MemberId = m.MemberId --Right table
-ORDER BY m.LastName; 
+FROM dbo.Member AS m -- left table
+LEFT JOIN dbo.Loan AS l ON l.MemberId = m.MemberId -- right table
+ORDER BY m.LastName;
 
---These can be usefull for filtering based on those null
+-- These can be useful for filtering based on those nulls
 SELECT m.FirstName, m.LastName
-FROM dbo.Member AS m
+FROM dbo.Member AS m 
 LEFT JOIN dbo.Loan AS l ON l.MemberId = m.MemberId
 WHERE l.LoanId IS NULL;
 
--- RIGHT JOIN: mirror of LEFT JOIN
---every book and heir loan if it exists 
-
+-- RIGHT JOIN: mirror of left join
+-- every book and their loans if it exists
 SELECT b.Title, l.LoanId
-FROM dbo.Loan AS l
-RIGHT JOIN dbo.Book ON b.BookId = l.BookId
+FROM dbo.Loan AS l   
+RIGHT JOIN dbo.Book AS b ON b.BookId = l.BookId
 ORDER BY b.Title;
 
---FULL OUTER vs CROSS
---FULL OUTER JOIN - Returns matched rows where they exists, as well as unmatched rows
-
-SELECT B.Title, c.Name AS Category
-FROM dbo.Book b 
+-- FULL OUTER vs CROSS 
+-- FULL OUTER JOIN - Returns matched rows where they exist, as well as unmatched rows
+SELECT b.Title, c.Name AS Category
+FROM dbo.Book b
 FULL OUTER JOIN dbo.Category c ON c.CategoryId = b.CategoryId
 ORDER BY c.Name;
 
 -- CROSS JOIN - not common. Cartesian product
---Every possible combination of the rows in both tables
---very rare
+-- Every possible combination of the rows in both tables
+-- very rare
+SELECT a.LastName, c.Name
+FROM dbo.Author a
+CROSS JOIN dbo.Category c; 
 
-SELECT a.LastName, c.Name 
-FROM dbo.Author a 
-CROSS JOIN dbo.Category c;
 
---subqueries
+-- Subqueries
+-- A subquery is a query inside another query
+-- Use a join to combine columns from multiple tables into the output
+-- Use a subquery to filter against a computer value or set you DONT need in the output
+-- Realistically, you can usually use either - typically the JOIN will be easier to write
 
---A subquery is a query inside another query
---Use a join to combine columns from multiple tables into the output
---use a subquery to filter against a computer value or set you DONT need in the output
---Realistically, you can usually use either - typically the JOIN will be easier to write
-
---scalar subquery: books that have more copues than average
-
-SELECT Title, totalCopies
+-- scalar subquery: books that have more copies than average
+SELECT Title, TotalCopies
 FROM dbo.Book
-WHERE TotalCopies > (SELECT AVG(TotalCopies) FROM dbo.Book);
+WHERE TotalCopies > ( SELECT AVG(TotalCopies) FROM dbo.Book );
 
---IN-suquery: members who currently have a book Lent put
---Notice - we did the opposite earlier with a JOIN this could alos simply be a join
-
+-- IN-subquery: members who currently have a book lent out
+-- Notice - we did the opposite earlier with a JOIN, this could also 
+-- simply be a join
 SELECT FirstName, LastName
 FROM dbo.Member
 WHERE MemberId IN
@@ -643,38 +636,203 @@ WHERE MemberId IN
     WHERE ReturnDate IS NULL
 );
 
-  SELECT MemberId
-    FROM dbo.Loan
-    WHERE ReturnDate IS NULL
-
---correlated  subquery: this one can cause you issues.
-
+-- correlated subquery: this one can cause you issues.
 SELECT Title, TotalCopies
 FROM dbo.Book b1 
 WHERE TotalCopies > (
-
     SELECT AVG(TotalCopies)
     FROM dbo.Book b2
     WHERE b1.PublishedYear = b2.PublishedYear
-);
+)
 
---Correlated subquery: loan count per book - computed by row
-
+-- correlated subquery: loan count per book - computed by row
 SELECT b.Title,
-    (SELECT COUNT(*) FROM dbo.Loan l WHERE l.BookId = b.BookId) AS TimesLoaned
+        (SELECT COUNT(*) FROM dbo.Loan l WHERE l.BookId = b.BookId) AS TimesLoaned
 FROM dbo.Book b
 ORDER BY TimesLoaned DESC;
--- Lets make a dashboard
---I want every curently out loan (Loans with a null), with member, book, category and how late the book is
 
+-- Lets make a dashboard 
+-- I want every currently out loan (loans with a null), with member, book, category, and how late the book is
 SELECT m.FirstName + ' ' + m.LastName AS Member,
-    b.Title,
-    c.Name as Category,
-    l.DueDate,
-    DATEDIFF(DAY, l.DueDate, GETDATE()) AS DaysOverdue
-FROM dbo.Loan AS l 
+        b.Title,
+        c.Name as Category,
+        l.DueDate,
+        DATEDIFF(DAY, l.DueDate, GETDATE()) AS DaysOverdue
+FROM dbo.Loan AS l    
 JOIN dbo.Member AS m ON m.MemberId = l.MemberId
 JOIN dbo.Book AS b ON b.BookId = l.BookId
 JOIN dbo.Category AS c ON c.CategoryId = b.CategoryId
-WHERE l.ReturnDate IS NULL
+WHERE l.ReturnDate IS NULL 
 ORDER BY DaysOverdue DESC;
+
+GO
+-- Transactions - All of this runs or NONE of it succeeds
+-- At its most basic a Transaction is just BEGIN and COMMIT
+-- BUT we want to account for things going wrong gracefull - even if 
+-- an error or exception WONT bring the database down.
+
+-- SQL despite not being a programming language - has TRY and CATCH
+
+-- SQL Server is an application. It, like any other applications, can have runtime errors
+-- This flag below, causes SQL Server to abort any transaction when an error surfaces. 
+-- Put it right before your try catch - this is SQL Server Specific
+SET XACT_ABORT ON; -- SQL Server specific flag 
+
+BEGIN TRY -- A little verbose but it works. 
+    BEGIN TRANSACTION -- we put our transaction in here. 
+        -- The logic of our transaction goes here below
+
+        -- Member 2 checks out book 1
+        INSERT INTO dbo.Loan(BookId, MemberId, DueDate)
+        VALUES (6, 2, DATEADD(DAY, 14, GETDATE())) -- Using Dateadd to generate a due date
+
+        -- So we did an insert - now let's do an update
+        -- Book 1 Available copies decremented
+        UPDATE dbo.Book SET AvailableCopies = AvailableCopies - 1 WHERE BookId = 6;
+    COMMIT TRANSACTION -- If we make it here, both writes become persisted
+    PRINT 'Checkout COMMITTED'
+END TRY
+BEGIN CATCH 
+    -- If something goes wrong we can detect it and roll back 
+    -- IF we make it to the CATCH, something has gone wrong. Either a runtime error
+    -- OR some sort of constraint or data integrity violation, like trying to create orphan records
+    -- The transaction remains open on this connection - we check to see if by the time we hit the catch
+    -- any transactions ARE open. If there are, we want to abort them - roll them back. 
+    IF @@TRANCOUNT > 0 ROLLBACK TRANSACTION;
+    PRINT 'Checkout ROLLED BACK: ' + ERROR_MESSAGE();
+END CATCH
+
+-- Every transaction ends in either a COMMIT or a ROLLBACK - you must provide logic for both.
+-- If you have a bunch of branching paths keep that in mind. 
+
+-- Isolation levels - largely managed by the RDBMS that runs our Database
+-- but we have some options. We can, if we want to, 
+-- set the isolation level
+
+-- In SQL Server there are four options (that we will worry about): 
+-- READ UNCOMMITTED - Queries and statements can read data rows modified by other transactions
+    -- that are yet to be committed. Does not issue shared locks or honor exclusive locks.
+    -- Can accidentally result in dirty (untrue) reads, and phantom reads on records that wont exist 
+    -- once that other transaction finishes.
+-- READ COMMITTED (Default) - Prevents dirty reads by requiring that data read by a statement must be 
+    -- committed before it is processed. 
+-- REPEATABLE READ - Places shared locks on all data read by transaction and HOLDS THEM until the entire transaction
+    -- No other transaction can modify or delete these rows during this time. Prevents some dirty reads, 
+    -- BUT other transactions can insert new rows that may bleed into your filtering for queries 
+-- SERIALIZABLE -- Most restrictive. Places locks on rows that prevent other transactions from updating
+    -- deleting OR inserting in date within the read range until your transaction finishes. This
+    -- prevents ALL concurrency anomalies - and is also slow as hell. SQL Server has to create
+    -- manage and delete alot of locks. You can also create deadlocks. 
+
+-- Fixing my error from before + constraint fix
+
+-- Reset copies
+UPDATE dbo.Book SET AvailableCopies = 0 WHERE BookId = 6;
+
+-- Add constraint
+ALTER TABLE dbo.Book
+ADD CONSTRAINT CK_Book_Min_AvailableCopies
+CHECK (AvailableCopies >= 0);
+
+GO
+
+-- VIEWS, INDEXES, STORED PROCEDURES and more. 
+-- Views are like saved queries. Think back to that large triple join we did 
+-- on DQL day. We can take something like that, that is annoying write or think of over and over again
+-- and we can save it as a View. Then we can query the view as if it was a table. 
+
+CREATE OR ALTER VIEW dbo.vw_ActiveLoans
+AS
+    SELECT m.FirstName + ' ' + m.LastName AS Member,
+        b.Title,
+        c.Name as Category,
+        l.DueDate,
+        DATEDIFF(DAY, l.DueDate, GETDATE()) AS DaysOverdue
+    FROM dbo.Loan AS l    
+    JOIN dbo.Member AS m ON m.MemberId = l.MemberId
+    JOIN dbo.Book AS b ON b.BookId = l.BookId
+    JOIN dbo.Category AS c ON c.CategoryId = b.CategoryId
+    WHERE l.ReturnDate IS NULL;
+
+GO
+
+-- This is not a saved precompiled dataset. There is something called an indexed view
+-- that is outside of our scope that is precompiled. But a VIEW like the one above, a regular VIEW
+-- is just a saved select. The data updates to be current whenever you call upon it. 
+SELECT * FROM dbo.vw_ActiveLoans ORDER BY DueDate;
+
+GO
+
+-- Increasing in complexity and potential usefulness
+-- We have Stored procedures - a named program in the database. Parameters/arguments, logic, 
+-- transaction wrapping and limited/optional returns 
+CREATE OR ALTER PROCEDURE dbo.usp_CheckoutBook
+    -- This first section between CREATE and AS holds your arguments/inputs
+    @BookId INT,
+    @MemberId INT,
+    @Days INT = 14 -- how long is the loan for, default 14
+AS
+BEGIN
+    SET XACT_ABORT ON;
+    SET NOCOUNT ON; -- turns off the "x rows affected message print"
+
+    BEGIN TRY
+        BEGIN TRANSACTION
+            -- We want to check if there are copies available to be checked out
+            IF (SELECT AvailableCopies FROM dbo.Book WHERE BookId = @BookId ) <= 0
+                -- Manually throwing an error in SQL Server. 
+                -- THROW takes 3 arguments
+                    -- error_number - some integer representing the exception, must be 50000 or higher
+                    -- message - some string describing the error
+                    -- state - an int between 0 and 255 describing where the error originated
+                THROW 50000, 'No copies available to check out.', 1;
+
+            INSERT INTO dbo.Loan (BookId, MemberId, DueDate)
+            VALUES (@BookId, @MemberId, DATEADD(DAY, @Days, GETDATE()));
+
+            UPDATE dbo.Book SET AvailableCopies = AvailableCopies - 1 WHERE BookId = @BookId;
+
+        COMMIT TRANSACTION;
+    END TRY
+    BEGIN CATCH
+        IF @@TRANCOUNT > 0 ROLLBACK TRANSACTION;
+        THROW; -- bubbling up the Try block error to wherever my stored procedure was called
+    END CATCH
+END;
+GO
+
+EXEC dbo.usp_CheckoutBook @BookId = 1, @MemberId = 3, @Days = 21;
+
+SELECT * FROM dbo.Loan WHERE BookId = 1 AND MemberId = 3;
+
+GO
+-- Stored Procedure vs User Defined Function
+-- A stored procedure DOES something. Writes, transactions, returning result sets, etc. Called with EXEC.
+-- A function (user defined or otherwise) computes a value. Its called INSIDE a query, and it itself
+-- does not change the data in the database. 
+
+-- User defined function
+CREATE OR ALTER FUNCTION dbo.fn_DaysOverdue (@dueDate DATE)
+RETURNS INT
+AS 
+BEGIN
+    -- Declaring a variable in SQL that is scoped to this function
+    DECLARE @days INT = DATEDIFF(DAY, @dueDate, CAST(GETDATE() AS DATE));
+    -- IF days is greater than 0 (the book is overdue) - return that value
+    -- IF days is 0 (or less somehow) return 0 instead
+    RETURN CASE WHEN @days > 0 THEN @days ELSE 0 END;
+END;
+GO
+
+SELECT b.Title, l.DueDate, dbo.fn_DaysOverdue(DueDate) AS DaysOverdue
+FROM dbo.Loan l
+JOIN dbo.Book b ON b.BookId = l.BookId
+WHERE ReturnDate is NULL;
+
+
+-- Indexes - a lookup structure like an index ina  book. 
+-- You create it on certain columns in a table, to allow lookup on that column
+-- without the DB engine having to scan row by row. 
+
+-- Trading READ speed for WRITE speed
+CREATE INDEX IX_Loan_MemberId ON dbo.Loan (MemberId);
