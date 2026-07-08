@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="coffeShop.Api/coffeShop.Api.csproj" />
+  <Project Path="coffeShop.data/coffeShop.data.csproj" />
+</Solution>
