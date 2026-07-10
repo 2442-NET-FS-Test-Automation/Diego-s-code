@@ -3,6 +3,7 @@ using coffeShop.data.entities;
 using coffeShop.data.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
+using Serilog;
 
 namespace coffeShop.Api.Fulfillment;
 
@@ -30,34 +31,15 @@ public class Seeder : ISeeder
         //I ask for a db context
         using var db = _factory.CreateDbContext();
 
-        //Then I Create a dictionary 
-        var pid = db.Products.ToDictionary(p => p.Sku, p => p.ProductId); 
-
-        var ids = new List<int> (n);
-
-        for (int i = 0; i < n; i++)
-        {
-            var order = new Order
-            {
-              CustomerId = Random.Shared.Next(1, 8),
-              Priority = expedited ? Priority.Expedited : Priority.Normal,
-              Lines = {new OrderLine {ProductId = Random.Shared.Next(1, 10), Quantity = 1}},
-              Status = coffeShop.data.Entities.Status.Pending.ToString()
-            };
-
-            db.Orders.Add(order);
-            db.SaveChanges();   
-            ids.Add(order.OrderId);
+        return CreateOrders(db, n, i => expedited ? Priority.VIP : Priority.Normal);
             
-        }
-
-        return ids;
     }
 
     public IReadOnlyList<int> ResetAndCreateOrders (int n)
     {
         
         using var db = _factory.CreateDbContext();
+
 
         foreach (InventoryItem inv in db.Inventory)
         {
@@ -68,9 +50,11 @@ public class Seeder : ISeeder
         }
 
         db.SaveChanges();
+        return CreateOrders(db, n, i => i % 3 == 0 ? Priority.VIP : Priority.Normal);
+    }
 
-        var pid = db.Products.ToDictionary(p => p.Sku, p => p.ProductId);
-
+    private static IReadOnlyList<int> CreateOrders(coffeShopContext db, int n, Func<int, Priority> prioriryFor)
+    {
         var ids = new List<int>(n);
 
         for(var i = 0; i < n; i++)
@@ -78,8 +62,9 @@ public class Seeder : ISeeder
             var order = new Order
             {
                 CustomerId = Random.Shared.Next(1, 8), //Pick a random customer
-                Priority = i % 3 == 0 ? Priority.Expedited : Priority.Normal, //A chance to be priority or normal order
-                Lines = {new OrderLine {ProductId = Random.Shared.Next(1, 10), Quantity = 1}}  //Pick a random drink in the db
+                Priority = prioriryFor(i),//A chance to be priority or normal order
+                Lines = {new OrderLine {ProductId = Random.Shared.Next(1, 10), Quantity = 1}},  //Pick a random drink in the db
+                Status = Status.Pending.ToString()
             };
 
             db.Orders.Add(order);
