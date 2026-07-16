@@ -11,7 +11,7 @@ public class BurstPlaner
         
         PriorityQueue<int, int> pq = new PriorityQueue<int, int>();
 
-        foreach (Order o in orders) //Itereates thorug the incoming orders
+        foreach (Order o in orders) //Iterates thorug the incoming orders
         {
             pq.Enqueue(o.OrderId, o.Priority == Priority.VIP ? 0 : 1);  //if an order is VIP 0 (higher priority) is not 1 (normal)
         }

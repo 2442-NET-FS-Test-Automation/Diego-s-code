@@ -9,6 +9,7 @@ using Serilog;
 
 namespace coffeShop.Api.Fulfillment;
 
+//Just setting the interface
 public interface IFulfillmentService
 {
 
@@ -25,6 +26,7 @@ public enum FulfillmentResult { Completed, Rejected }
 
 public record BurstResult(int completed, int rejected);
 
+//Call the methods
 public class FulfillmentService : IFulfillmentService
 {
     private readonly IDbContextFactory<coffeShopContext> _factory;
@@ -32,6 +34,8 @@ public class FulfillmentService : IFulfillmentService
     private readonly ConcurrentDictionary<string, int> _skuToproductId;
     private readonly ConcurrentDictionary<int, int> _inventoryCache = new();
 
+
+//The constructors
     public FulfillmentService(IDbContextFactory<coffeShopContext> factory, BurstPlaner planer)
     {
         _factory = factory;
@@ -60,7 +64,10 @@ public class FulfillmentService : IFulfillmentService
         //this is used to see if we have stock to sell our products
     foreach(OrderLine line in order.Lines)
     {
-        if(_inventoryCache.TryGetValue(line.ProductId, out int currentInventory))
+        bool lineFulfilled = false;
+        while(true)
+        {
+        if(_inventoryCache.TryGetValue(line.ProductId, out int currentInventory)) 
         {        
             if(currentInventory < line.Quantity)
             {
@@ -68,13 +75,22 @@ public class FulfillmentService : IFulfillmentService
                 break;
             }
 
-            _inventoryCache.TryUpdate(line.ProductId, currentInventory - line.Quantity, currentInventory);
+            if(_inventoryCache.TryUpdate(line.ProductId, currentInventory - line.Quantity, currentInventory)) //I try to update the stock in memory
+                        {
+                            lineFulfilled = true; //if it can be done, get out of the while!
+                            break;
+                        }
+                        //If TryUpdate returns false, we try again the loop!
+                    }
+                    else
+                    {
+                        canFulfill = false; //if the item isn't founded break
+                        break;
+                    }    
         }
-            else
-            {
-                canFulfill = false;
-                break;
-            }
+
+         if(!lineFulfilled) //If it is false break because it cannot be Fulfilled 
+        break;
     }
 
         if (!canFulfill) //If can't fulfill the order reject it
@@ -98,6 +114,8 @@ public class FulfillmentService : IFulfillmentService
         foreach(var (productId, quantity) in requested)
             {
                 var invEntity = await db.Inventory.FirstAsync(i => i.ProductId == productId, ct);
+                if(invEntity.Quantity < quantity)
+                        throw new NotEnoughStockException(productId, quantity, invEntity.Quantity);
                 invEntity.Quantity -= quantity;
             }
 
@@ -185,9 +203,9 @@ public class FulfillmentService : IFulfillmentService
 
         var planned = _planner.OrderByPriority(orders); //Put the VIP on the top
 
-        var tasks = planned.Select(id => FulfillOneAsync(id, ct));
+        var tasks = planned.Select(id => FulfillOneAsync(id, ct)); //Here the tasks start concurrently
 
-        var results = await Task.WhenAll(tasks); //Here the orders are being processed concurrently
+        var results = await Task.WhenAll(tasks); //Here we wait for ALL the orders to be done
 
         return new BurstResult(
             completed: results.Count(r => r == FulfillmentResult.Completed), //counts how many orderes were completed/Rejected

@@ -31,7 +31,7 @@ public class Seeder : ISeeder
         //I ask for a db context
         using var db = _factory.CreateDbContext();
 
-        return CreateOrders(db, n, i => expedited ? Priority.VIP : Priority.Normal);
+        return CreateOrders(db, n, i => expedited ? Priority.VIP : Priority.Normal); //Here I use CreateOrders changing the parameters
             
     }
 
@@ -50,7 +50,7 @@ public class Seeder : ISeeder
         }
 
         db.SaveChanges();
-        return CreateOrders(db, n, i => i % 3 == 0 ? Priority.VIP : Priority.Normal);
+        return CreateOrders(db, n, i => i % 3 == 0 ? Priority.VIP : Priority.Normal); //Here I use CreateOrders changing the parameters
     }
 
     private static IReadOnlyList<int> CreateOrders(coffeShopContext db, int n, Func<int, Priority> prioriryFor)

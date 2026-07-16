@@ -64,7 +64,7 @@ app.MapGet("/inventory", async (coffeShopContext db) =>
 
 
 //Here i can seed again our DB with a default stock...
-app.MapGet("/seed", async (coffeShopContext db) =>
+app.MapPost("/seed", async (coffeShopContext db) =>
 {
 
    var products = await db.Products.ToListAsync();
@@ -152,8 +152,9 @@ app.MapPost("/order/benchmark", async (int number, IFulfillmentService fs, ISeed
 //Reports 
 app.MapGet("/Reports/Top-Product", async (coffeShopContext db, CancellationToken ct) =>
 {
+    //Here i get tge prducts, the most selled at the top
     var ranked = await db.FulFillmentEvents
-        .Where(e => e.Type == "Completed")
+        .Where(e => e.Type == "Completed") //They order must be completed
         .Join(db.OrderLines, e => e.OrderId, l => l.OrderId, (e, l) => l)
         .GroupBy(l => l.ProductId)
         .Select(g => new {ProductId = g.Key, Units = g.Sum(l => l.Quantity)})
@@ -166,12 +167,13 @@ app.MapGet("/Reports/Top-Product", async (coffeShopContext db, CancellationToken
 app.MapGet("/Reports/Top-Customers", async (coffeShopContext db, CancellationToken ct)=>
 {
 
+    //We consult the Db to get the top 3 customers
     var ranked = await db.Orders
-        .Where(o => o.Status == "Completed")    
+        .Where(o => o.Status == "Completed")     //The orders need to be completed
         .GroupBy(o => o.CustomerId)
         .Select(g => new {CustomerId = g.Key, TotalOrders = g.Count()})
         .OrderByDescending(x => x.TotalOrders)
-        .Take(3)
+        .Take(3) //The top 3
         .ToListAsync(ct);
 
         return ranked;
@@ -180,7 +182,7 @@ app.MapGet("/Reports/Top-Customers", async (coffeShopContext db, CancellationTok
 app.MapGet("/Reports/Processing-Time-Rank/{miliseconds:int}", async (int miliseconds, coffeShopContext db, CancellationToken ct)=>
 {
 
-    var orders = await db.Orders
+    var orders = await db.Orders //Getting the status and the time from the db
         .Where(o => o.Status == "Completed" && o.CompletedAt != null)
         .ToListAsync(ct);
 
@@ -189,9 +191,10 @@ app.MapGet("/Reports/Processing-Time-Rank/{miliseconds:int}", async (int milisec
         .OrderBy(t => t)
         .ToArray();
 
-        int index = Array.BinarySearch(processingTime, miliseconds);
+        int index = Array.BinarySearch(processingTime, miliseconds); //Here I use BinarySearch to search the Processing Time
+        //Across my array
 
-        if(index >= 0)
+        if(index >= 0) //If we find an index
     {
         return Results.Ok(new
         {
@@ -201,10 +204,10 @@ app.MapGet("/Reports/Processing-Time-Rank/{miliseconds:int}", async (int milisec
         });
     }
 
-    return Results.NotFound($"There wans't any order that took {miliseconds}");
+    return Results.NotFound($"There wans't any order that took {miliseconds}"); //If we don't find anything
 });
 
-app.MapGet("/Reports/Processing-Time-Rank", async (coffeShopContext db, CancellationToken ct)=>
+app.MapGet("/Reports/Processing-Time-List", async (coffeShopContext db, CancellationToken ct)=>
 {
     var orders = await db.Orders
         .Where(o => o.Status == "Completed" && o.CompletedAt != null)
@@ -218,7 +221,8 @@ app.MapGet("/Reports/Processing-Time-Rank", async (coffeShopContext db, Cancella
     return Results.Ok(processingTime);
 });
 
-app.MapPost("/maintenance/reset-all", async (coffeShopContext db) =>
+
+app.MapDelete("/maintenance/reset-all", async (coffeShopContext db) => //Reset the db orders, etc...
 {
     
     await db.Database.ExecuteSqlRawAsync("DELETE FROM FulFillmentEvents");
@@ -235,8 +239,7 @@ app.MapPost("/maintenance/reset-all", async (coffeShopContext db) =>
 
 
 //Starts the app
-
-try
+try //Only a try catch to ensure that my app starts properly
 {   
     Log.Information("Coffe Shop is now open!");
     app.Run();  
